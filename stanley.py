@@ -28,15 +28,6 @@ def main():
     sub1=rospy.Subscriber("astroid_path", Path, path_callback)
     sub2=rospy.Subscriber("base_pose_ground_truth", Odometry, odo_callback)
     global ctrl
-    #rate = rospy.Rate(20)
-    
-    #while not rospy.is_shutdown:
-		#print("Up and Working!")
-		#purepursuit() 
-        #ismein pure_pursuit aur pid dono hai
-		#pub.publish(ctrl)
-		#print "published"
-		#rate.sleep()
     rospy.spin()
     
 def path_callback(path_msg):
@@ -73,7 +64,7 @@ def odo_callback(odo_msg):
 
 def stanley(twst):
     global path,index,r_x,r_y,kd,v,yaw,pub
-    print("------------------------------------------ SHURU HUA--------------------------------------------")
+    print("-----------------------------------------------------------------------------------")
     i=index
     vel_flag=0
     if i<(len(path)-3) :
@@ -86,7 +77,7 @@ def stanley(twst):
             dis=math.hypot(path[i+1].pose.position.x-r_x, path[i+1].pose.position.y-r_y)
         index=i-1
         print(np,dis,yaw)
-        #80;9print("np:",np,"th:",kd*v)-
+        #print("np:",np,"th:",kd*v)-
     
         #g_x=path[i].pose.position.x-r_x
         #g_y=path[i].pose.position.y-r_y
@@ -122,7 +113,7 @@ def stanley(twst):
         twst.linear.y=0.0
         twst.angular.z=0.0  
     
-    print("---------------------------------------------- KHATAM HUA--------------------------------------------------")
+    print("----------------------------------------------------------------------------------------------")
 if __name__=="__main__":
     try:
         main()
