@@ -69,8 +69,40 @@ def odo_callback(odo_msg):
 def mpc(twst):
     global path,index,r_x,r_y,kd,v,yaw,pub,vt,p_theta,p_crstr,dt,prev_delta,iterate, prev_path_yaw
     
-    #print("------------------------------------------------------------------------------------")
+    print("------------------------------------------------------------------------------------")
+    i=index
+    vel_flag=0
+    if i<(len(path)-3) :
+        np=math.hypot(path[i].pose.position.x-r_x, path[i].pose.position.y-r_y)
+        dis=math.hypot(path[i+1].pose.position.x-r_x, path[i+1].pose.position.y-r_y)
+        print(np,dis,yaw)
+        while (dis<np and i<len(path)-1):
+            i=i+1
+            np=dis
+            dis=math.hypot(path[i+1].pose.position.x-r_x, path[i+1].pose.position.y-r_y)
+        index=i-1
+        print(np,dis,yaw)
+        qx=path[i].pose.orientation.x
+        qy=path[i].pose.orientation.y
+        qz=path[i].pose.orientation.z
+        qw=path[i].pose.orientation.w
         
+        eul=euler_from_quaternion([qx,qy,qz,qw])
+        path_yaw=eul[2]
+        print(path_yaw)
+        sign=1
+        if path_yaw<0: sign=-1
+        delta=(-yaw+path_yaw)+math.atan(kd*np*sign/(0.0001+v))
+        MAX_STEER=math.pi/4
+        if delta >= MAX_STEER:
+            delta = MAX_STEER
+        elif delta <= -MAX_STEER:
+            delta = -MAX_STEER
+        omega = math.tan(delta)*v/2.5 #2.5m is wheelbase
+        
+        twst.linear.x=1.5*math.cos(yaw)
+        twst.linear.y=1.5*math.sin(yaw)
+        twst.angular.z=omega
     
     
 
@@ -87,8 +119,6 @@ def mpc(twst):
         twst.linear.y=0.0
         twst.angular.z=0.0  
     
-    #print("---------------------------------------------- KHATAM HUA--------------------------------------------------")
-
 if __name__=="__main__":
     try:
         main()
