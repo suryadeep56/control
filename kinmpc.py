@@ -69,7 +69,7 @@ def odo_callback(odo_msg):
 def mpc(twst):
     global path,index,r_x,r_y,kd,v,yaw,pub,vt,p_theta,p_crstr,dt,prev_delta,iterate, prev_path_yaw
     
-    #print("------------------------------------------ SHURU HUA--------------------------------------------")
+    #print("------------------------------------------------------------------------------------")
         
     
     
