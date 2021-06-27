@@ -37,15 +37,6 @@ def main():
     sub1=rospy.Subscriber("astroid_path", Path, path_callback)
     sub2=rospy.Subscriber("base_pose_no_error", Odometry, odo_callback)
     global ctrl
-    #rate = rospy.Rate(20)
-    
-    #while not rospy.is_shutdown:
-		#print("Up and Working!")
-		#purepursuit() 
-        #ismein pure_pursuit aur pid dono hai
-		#pub.publish(ctrl)
-		#print "published"
-		#rate.sleep()
     rospy.spin()
     
 def path_callback(path_msg):
@@ -75,7 +66,7 @@ def odo_callback(odo_msg):
 
 def lqr(twst):
     global path,index,r_x,r_y,kd,v,yaw,pub,vt,p_theta,p_crstr,dt,prev_delta,iterate, prev_path_yaw
-    print("------------------------------------------ SHURU HUA--------------------------------------------")
+    print("--------------------------------------------------------------------------------------")
     i=index
     p_x=path[i].pose.position.x
     vel_flag=0
@@ -173,7 +164,8 @@ def lqr(twst):
         twst.linear.y=0.0
         twst.angular.z=0.0  
     
-    print("---------------------------------------------- KHATAM HUA--------------------------------------------------")
+    print("----------------------------------------------------------------------------------------------")
+	
 if __name__=="__main__":
     try:
         main()
